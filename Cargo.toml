@@ -1,0 +1,10 @@
+[package]
+name = "anarpg"
+version = "0.1.0"
+authors = ["Elisabeth Henry <liz.henry@ouvaton.org>"]
+description = "A rules engine library for creating RPGs and such gamess"
+readme = "README.md"
+keywords = ["rpg", "gamedev"]
+license = "MIT/Apache-2.0"
+
+[dependencies]
