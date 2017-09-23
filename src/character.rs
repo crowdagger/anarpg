@@ -10,15 +10,17 @@
 // for inclusion in the work by you, as defined in the Apache-2.0 license, shall be
 // dual licensed as above, without any additional terms or conditions.
 
-#[macro_use]
-extern crate lazy_static;
+use ability::Ability;
 
-mod ability;
-mod character;
-mod stats;
-mod cooldown;
+/// Representation of a character (player or NPC)
+#[derive(Debug, Clone)]
+pub struct Character {
+    /// Strength and constitution
+    fight: u16,
+    /// Dexterity/agility
+    skill: u16,
+    /// Intelligence/perception/charisma
+    swag: u16,
 
-pub use ability::Ability;
-pub use character::Character;
-pub use stats::Stats;
-pub use cooldown::Cooldown;
+    abilities: Vec<Box<Ability>>,
+}
