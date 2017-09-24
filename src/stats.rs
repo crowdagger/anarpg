@@ -44,6 +44,7 @@ pub struct Stats {
 impl Stats {
     /// Create a new `Stats` representation with inital level ("level 1")
     pub fn new() -> Stats {
+        debug!("Creating new basic stats");
         Stats {
             badassness: 2,
             skill: 2,
@@ -54,6 +55,25 @@ impl Stats {
 
             mp: 6,
             max_mp: 6,
+
+            speed: 1.0,
+            cooldown_reduction: 1.0,
+        }
+    }
+
+    /// Creates a new `Stats` with all vales set to zero
+    pub fn zero() -> Stats {
+        debug!("Creatirn new zero stats");
+        Stats {
+            badassness: 0,
+            skill: 0,
+            swag: 0,
+
+            hp: 0,
+            max_hp: 0,
+
+            mp: 0,
+            max_mp: 0,
 
             speed: 1.0,
             cooldown_reduction: 1.0,

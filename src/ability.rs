@@ -45,6 +45,14 @@ impl Clone for Box<Ability> {
 ///
 /// You don't have to worry about `AbilityClone`, it is implemented automatically.
 pub trait Ability: Debug+AbilityClone {
+    /// Returns the name of the ability
+    ///
+    ///. Used to determine the character's level
+    /// for this ability (or zero if they don't have the ability at all).
+    ///
+    /// The emplementation should return a unique, lowercase string. 
+    fn name(&self) -> &str;
+    
     /// Adjust the character stats by some factor. Default: no modification.
     fn stats_modifier(&self, _stats: &mut Stats) { }
 
