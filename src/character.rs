@@ -66,6 +66,16 @@ impl Character {
             }
         false
     }
+
+    /// Return the abiilty having this name, or none if the character doesn't have it
+    pub fn ability(&self, ability: &str) -> Option<&Ability> {
+        for ablt in &self.abilities {
+            if ablt.name() == ability {
+                return Some(&**ablt);
+            }
+        }
+        None
+    }
 }
 
 
@@ -89,4 +99,12 @@ fn class() {
     assert_eq!(woman.is_a("COP"), true);
     assert_eq!(woman.is_a("man"), false);
     assert_eq!(woman.is_a("woman"), true);
+}
+
+
+#[test]
+fn no_ability() {
+    let character = Character::new("Foo", "Bar");
+    let ablt = character.ability("attack");
+    assert!(ablt.is_none());
 }

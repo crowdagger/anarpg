@@ -18,40 +18,39 @@ use stats::Stats;
 /// # Example
 ///
 /// ```
-/// use anarpg::Cooldown;
+/// use anarpg::Time;
 /// use anarpg::Stats;
 ///
-/// // Create a new Cooldown 
-/// let cooldown = Cooldown::new()
+/// // Create a new Time 
+/// let cooldown = Time::new()
 ///     .with_fixed(0.5)
-///     .with_variable(1.0)
 ///     .with_badassness(1.0);
 ///
 /// // Compute the cooldown for default stats
-/// println!("cooldown: {}", cooldown.adjusted_by(&Stats::new()));
+/// println!("cooldown: {}", cooldown.cooldown(&Stats::new()));
 /// ```
 #[derive(Debug, Clone)]
-pub struct Cooldown {
+pub struct Time {
     /// The fixed part. Won't be reduced by anything.
     /// E.g. the time a gun takes to eject a bullet and be ready to fire again.
     pub fixed: f32,
     /// Variable cooldown, reduced by a character's cooldown reduction stat.
     pub variable: f32,
-    /// Cooldown reduced by having more badassness.
+    /// Time reduced by having more badassness.
     /// E.g. the time it takes to be ready to punch again.
     pub badassness: f32,
-    /// Cooldown reduced by having more skill.
+    /// Time reduced by having more skill.
     /// E.g. the time it takes to aim again.
     pub skill: f32,
-    /// Cooldown reduced by having more swag.
+    /// Time reduced by having more swag.
     /// E.g. the time it takes to be able to cast another spell.
     pub swag: f32,
 }
 
-impl Cooldown {
+impl Time {
     /// Creates a new, zero cooldown
-    pub fn new() -> Cooldown {
-        Cooldown {
+    pub fn new() -> Time {
+        Time {
             fixed: 0.0,
             variable: 0.0,
             badassness: 0.0,
@@ -61,42 +60,51 @@ impl Cooldown {
     }
 
     /// Sets the fixed part of a cooldown
-    pub fn with_fixed(mut self, fixed: f32) -> Cooldown {
+    pub fn with_fixed(mut self, fixed: f32) -> Time {
         self.fixed = fixed;
         self
     }
 
     /// Sets the variable part of a cooldown
-    pub fn with_variable(mut self, variable: f32) -> Cooldown {
+    pub fn with_variable(mut self, variable: f32) -> Time {
         self.variable = variable;
         self
     }
 
     /// Sets the badassness part of a cooldown
-    pub fn with_badassness(mut self, badassness: f32) -> Cooldown {
+    pub fn with_badassness(mut self, badassness: f32) -> Time {
         self.badassness = badassness;
         self
     }
 
     /// Sets the skill part of a cooldown
-    pub fn with_skill(mut self, skill: f32) -> Cooldown {
+    pub fn with_skill(mut self, skill: f32) -> Time {
         self.skill = skill;
         self
     }
 
     /// Sets the swag part of a cooldown
-    pub fn with_swag(mut self, swag: f32) -> Cooldown {
+    pub fn with_swag(mut self, swag: f32) -> Time {
         self.swag = swag;
         self
     }
 
     /// Compute the cooldown after character's stats reduction
-    pub fn adjusted_by(&self, stats: &Stats) -> f32 {
-        self.fixed
-            + self.variable * stats.cooldown_reduction
+    pub fn cooldown(&self, stats: &Stats) -> f32 {
+        stats.cooldown_reduction *
+            (self.fixed
             + self.badassness * f(stats.badassness)
             + self.skill * f(stats.skill)
-            + self.swag * f(stats.swag)
+            + self.swag * f(stats.swag))
+    }
+
+    /// Compute the time action will take after character's stats reduction
+    pub fn time(&self, stats: &Stats) -> f32 {
+        stats.speed *
+            (self.fixed
+            + self.badassness * f(stats.badassness)
+            + self.skill * f(stats.skill)
+            + self.swag * f(stats.swag))
     }
 }
 
@@ -104,3 +112,4 @@ impl Cooldown {
 fn f(x: i16) -> f32 {
     f32::from(0.95).powi(x as i32)
 }
+

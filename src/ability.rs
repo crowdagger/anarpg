@@ -13,7 +13,7 @@
 use std::fmt::Debug;
 
 use stats::Stats;
-use cooldown::Cooldown;
+use time::Time;
 
 
 /// Necessary for some quirks I don't quite understand really.
@@ -57,5 +57,8 @@ pub trait Ability: Debug+AbilityClone {
     fn stats_modifier(&self, _stats: &mut Stats) { }
 
     /// Cooldown time for this ability. Default: no cooldown
-    fn cooldown(&self) -> Cooldown { Cooldown::new() }
+    fn cooldown(&self) -> Time { Time::new() }
+
+    /// Time the ability takes to perform. Default: no time at all
+    fn time(&self) -> Time { Time::new() }
 }

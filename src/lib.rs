@@ -18,9 +18,9 @@ extern crate log;
 mod ability;
 mod character;
 mod stats;
-mod cooldown;
+mod time;
 
 pub use ability::Ability;
 pub use character::Character;
 pub use stats::Stats;
-pub use cooldown::Cooldown;
+pub use time::Time;
